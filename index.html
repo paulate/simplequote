@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="all" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+    	$.ajax({
+            type: 'GET',
+            url: 'pinboard.json',
+           // format:'json',
+            dataType: 'json',
+            success: jsonParser
+        });
+    });
+    
+    function jsonParser(json) {
+      // $('#load').fadeOut();
+      $.getJSON('pinboard.json', function(data){
+        $.each(data,function(k,v){ //u,d,n,dt,a,t
+         var url =  v.u;
+         var desc = v.n; // Do some Regex to split up quotes, find markdown syntax
+         var title = v.d;
+         var tags = v.t;
+         $('#container').append('<div class="card"><p class="title">'+tags+'</p><p class="description">'+desc+'</p><a href="'+url+'">'+url+'</a></div>');
+        });
+      });
+      
+    }
+  </script>
+</head>
+<body>
+    <div id="container"></div>
+</body>
+</html>
